@@ -7,10 +7,18 @@ import (
 	"time"
 
 	"github.com/Jhon64/go-backend-postgres/database"
+	"github.com/Jhon64/go-backend-postgres/helpers"
 	"github.com/Jhon64/go-backend-postgres/scheme"
 	"github.com/Jhon64/go-backend-postgres/settings"
 	"github.com/golang-jwt/jwt/v5"
 )
+
+type ValidUser struct {
+	Username    string      `json:"username"`
+	Id          uint        `json:"id"`
+	Token       string      `json:"token"`
+	ExpireToken interface{} `json:"expire_token"`
+}
 
 func SigninHandlers(w http.ResponseWriter, r *http.Request) {
 	var creds settings.Credentials
@@ -29,11 +37,12 @@ func SigninHandlers(w http.ResponseWriter, r *http.Request) {
 	result := db.Find(&user, "username=? and password=?", creds.Username, creds.Password)
 
 	// expectedPassword, ok := users[creds.Username]
-	if result.Error != nil {
+	if result.Error != nil || result.RowsAffected==0 {
 		fmt.Println("Error al autenticar", result.Error)
 		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
+	fmt.Println("rows ::", result.RowsAffected)
 
 	// Declare the expiration time of the token
 	// here, we have kept it as 5 minutes
@@ -54,11 +63,11 @@ func SigninHandlers(w http.ResponseWriter, r *http.Request) {
 	// Create the JWT string
 	fmt.Println("secretKey::", settings.JwtSecretKey)
 	tokenString, err := token.SignedString(settings.JwtSecretKey)
-	fmt.Println("token error::", err)
+	
 	fmt.Println("token::", tokenString)
 	if err != nil {
-		// If there is an error in creating the JWT return an internal server error
-		w.WriteHeader(http.StatusInternalServerError)
+		response := helpers.Response{Status: 401}
+		response.MakeResponse(w)
 		return
 	}
 
@@ -69,4 +78,15 @@ func SigninHandlers(w http.ResponseWriter, r *http.Request) {
 		Value:   tokenString,
 		Expires: expirationTime,
 	})
+
+	
+	validUser := ValidUser{Username: user.Username, Id: user.Id, Token: tokenString,
+		ExpireToken: expirationTime.UnixMilli()}
+
+	fullname := user.Firstname + " " + user.Lastname
+	fmt.Println("usuario::", user)
+	messageBienvenido := "Bienvenido, " + fullname
+	fmt.Println("message::", messageBienvenido)
+	response := helpers.Response{Data: validUser, Message: messageBienvenido}
+	response.MakeResponse(w)
 }

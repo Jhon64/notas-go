@@ -10,11 +10,13 @@ import (
 )
 
 func main() {
-	fmt.Println("Creando mi primer servidor")
+	
 	db:=database.DBConnection()
 	fmt.Println("instancia db::",db)
 	db.AutoMigrate(scheme.Task{})
 	db.AutoMigrate(scheme.Users{})
-	r:=routes.TareasHandlers()
+	r:=routes.Handlers()
+	fmt.Println("servidor levantado ::","http://localhost:3000")
 	http.ListenAndServe(":3000", r)
+	
 }

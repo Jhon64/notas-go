@@ -20,11 +20,15 @@ require (
 	github.com/jackc/pgx/v5 v5.3.1 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
+	github.com/markphelps/optional v0.10.0 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.18 // indirect
 	github.com/pelletier/go-toml v1.9.5 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.7 // indirect
+	github.com/rs/cors v1.9.0 // indirect
+	github.com/shogo82148/pointer v1.2.0 // indirect
 	github.com/spf13/afero v1.9.5 // indirect
+	github.com/ssrathi/go-attr v1.3.0 // indirect
 	github.com/tdewolff/parse/v2 v2.6.5 // indirect
 	golang.org/x/crypto v0.8.0 // indirect
 	golang.org/x/sys v0.7.0 // indirect

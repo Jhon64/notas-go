@@ -10,7 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "g/react": "^1.4.2",
+    "@material-tailwind/react": "^1.4.2",
+    "axios": "^1.4.0",
+    "notiflix": "^3.2.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.0",
