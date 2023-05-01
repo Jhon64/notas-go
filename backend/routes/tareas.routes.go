@@ -6,7 +6,9 @@ import (
 	"net/http"
 
 	"github.com/Jhon64/go-backend-postgres/database"
+	"github.com/Jhon64/go-backend-postgres/helpers"
 	"github.com/Jhon64/go-backend-postgres/scheme"
+	"github.com/gorilla/mux"
 )
 func PostTasksHandler(writer http.ResponseWriter, request *http.Request)  {
 	var task scheme.Task
@@ -30,6 +32,21 @@ func GetTasksHandler(writer http.ResponseWriter, request *http.Request)  {
 	var tasks []scheme.Task
 	db.Find(&tasks)
 	fmt.Println("lista users ::",len(tasks) )
-	json.NewEncoder(writer).Encode(&tasks)
+	response := helpers.Response{Data: tasks, Message: "Listando Tareas"}
+	response.MakeResponse(writer)
+
+}
+
+func DeleteTasksHandler(writer http.ResponseWriter, request *http.Request)  {
+	
+	params := mux.Vars(request)
+	taskID := params["id"]
+	fmt.Println("get Tasks",request.Body)
+	db:=database.DBConnection()
+	var tasks []scheme.Task
+	db.Delete(&tasks,"id=?",taskID)
+	fmt.Println("lista users ::",len(tasks) )
+	response := helpers.Response{Data: tasks, Message: "Tareas Eliminadas"}
+	response.MakeResponse(writer)
 
 }

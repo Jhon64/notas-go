@@ -113,6 +113,31 @@ export const Http = {
         });
     });
   },
+  DELETE: <T>(url: string, params?: string | object,loading?:boolean): Promise<IHttpResponse> => {
+    initialConfig();
+    if (params) url += parseParamsToString(params);
+    if (loading){
+      Loading.circle("Loading...");  
+    }
+    return new Promise((resolve, reject) => {
+      axios
+        .delete(url)
+        .then((response) => {
+          const newResponse: IHttpResponse = {
+            data: response.data,
+            status: response.status,
+            statusText: response.statusText,
+          };
+          Loading.remove();
+          resolve(newResponse);
+        })
+        .catch((err) => {
+          Loading.remove();
+          console.log("ERROR DELETE::", err);
+          reject(err);
+        });
+    });
+  },
   POST: <T>(url: string,data:any, params?: string | object,loading?:boolean): Promise<IHttpResponse> => {
     initialConfig();
     if (params) url += parseParamsToString(params);
@@ -134,6 +159,31 @@ export const Http = {
         .catch((err) => {
           Loading.remove();
           console.log("ERROR POST::", err);
+          reject(err);
+        });
+    });
+  },
+  PUT: <T>(url: string,data:any, params?: string | object,loading?:boolean): Promise<IHttpResponse> => {
+    initialConfig();
+    if (params) url += parseParamsToString(params);
+    if (loading){
+      Loading.circle("Loading...");  
+    }
+    return new Promise((resolve, reject) => {
+      axios
+        .put(url,data)
+        .then((response) => {
+          const newResponse: IHttpResponse = {
+            data: response.data,
+            status: response.status,
+            statusText: response.statusText,
+          };
+          Loading.remove();
+          resolve(newResponse);
+        })
+        .catch((err) => {
+          Loading.remove();
+          console.log("ERROR PUT::", err);
           reject(err);
         });
     });

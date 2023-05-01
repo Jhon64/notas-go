@@ -13,6 +13,7 @@ func HomeHandler(writer http.ResponseWriter, request *http.Request) {
 func Handlers()http.Handler{
 	r := mux.NewRouter()
 	r.HandleFunc("/", HomeHandler)
+	r.HandleFunc("/tareas/{id}", DeleteTasksHandler).Methods(http.MethodPost)
 	r.HandleFunc("/tareas", GetTasksHandler).Methods(http.MethodGet)
 	r.HandleFunc("/user", PostUserHandler).Methods(http.MethodPost)
 	r.HandleFunc("/auth", SigninHandlers).Methods(http.MethodPost)
