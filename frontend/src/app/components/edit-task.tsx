@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogBody, DialogFooter, DialogHeader, Input, Switch } from "@material-tailwind/react"
+import { Button, Dialog, DialogBody, DialogHeader, Input, Switch } from "@material-tailwind/react"
 import { memo, useState } from "react"
 
 export interface IAddTaskProps {
